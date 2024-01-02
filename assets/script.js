@@ -18,32 +18,34 @@ const slides = [
   },
 ];
 
+//mes variables
 let i = 0;
-let arrowLeft = document.querySelector(".arrow_left");
-let arrowRight = document.querySelector(".arrow_right");
-let dots = document.querySelector(".dots");
-let Image = document.querySelector(".banner-img");
-let Texte = document.querySelector("p")
+const arrowLeft = document.querySelector(".arrow_left");
+const arrowRight = document.querySelector(".arrow_right");
+const dots = document.querySelector(".dots");
+const Image = document.querySelector(".banner-img");
+const Texte = document.querySelector("p")
+
+
+// Ajoutez des Event Listeners sur les flèches
+arrowLeft.addEventListener("click", () => {
+  ChangementSlide(-1); //on enlève -1 si on va a gauche
+  BulletActif(i)
+});
+
+arrowRight.addEventListener("click", () => {
+  ChangementSlide(1); //on ajoute 1 si on va à droite
+  BulletActif(i)
+});
 
 //Fonction pour défilement des images à l'infini avec une condition
 function ChangementSlide(sens) {
   i = i + sens;
-  if (i > 3) i = 0;
-  if (i < 0) i = 3;
-  Image.src = "./assets/images/slideshow/" + slides[i].image;
+  if (i > slides.length -1) i = 0; //-1 car on compte à partir de 0 et non de 1
+  if (i < 0) i = slides.length -1;
+  Image.src = "./assets/images/slideshow/" + slides[i].image; //on refait le chemin de l'image
   Texte.innerHTML = slides[i].tagLine
 }
-
-// Ajoutez des Event Listeners sur les flèches
-arrowLeft.addEventListener("click", () => {
-  ChangementSlide(-1);
-  console.log("Précédent");
-});
-
-arrowRight.addEventListener("click", () => {
-  ChangementSlide(1);
-  console.log("Suivant");
-});
 
 // Ajoutez des bullet points au slider
 
@@ -53,4 +55,20 @@ for (let D = 0; D < slides.length; D++) {
   dot.classList.add("dot");
 }
 let DotsEnfants = document.querySelectorAll(".dots .dot");
-DotsEnfants[0].classList.add("dot_selected");
+DotsEnfants[i].classList.add("dot_selected"); // i = 0 donc c'est le premier qui est sélectionné et a donc la classe .dot_selected
+
+//fonction pour changement de dot actif en même temps que l'image
+function BulletActif(count) {
+	DotsEnfants.forEach((dot,i) => {
+	  if (i === count) {
+		dot.classList.add("dot_selected");
+	  } else {
+		dot.classList.remove("dot_selected");
+	  }
+	});
+  }
+
+
+
+
+ 
